@@ -11,10 +11,20 @@ class Order extends Model
     protected $table = 'order';
     public $fillabe = [
         'userID',
+        'paymentID',
+        'payment_mode',
+        'tracking_no',
         'number',
         'total_price',
         'provinceID',
         'districtID',
-        'address'
+        'address',
+        'remark',
+        'note',
+        'status',
     ];
+
+    public function orderitem(){
+        return $this->hasMany(OrderDetail::class, 'orderID', 'id');
+    }
 }

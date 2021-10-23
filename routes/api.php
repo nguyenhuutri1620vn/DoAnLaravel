@@ -41,6 +41,10 @@ Route::delete('deleteitemcart/{cartID}', [CartController::class, 'deleteitemcart
 //checkout
 Route::get('getUser', [OrderController::class, 'getUSer']);
 Route::post('select-district/{provinceid}', [OrderController::class, 'selectdistrict']);
+Route::post('place-order', [OrderController::class, 'placeorder']);
+Route::post('validate-order', [OrderController::class, 'validateorder']);
+
+
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
     Route::get('/checkingAuthenticated', function () {
