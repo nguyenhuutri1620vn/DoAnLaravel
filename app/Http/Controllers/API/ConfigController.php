@@ -21,21 +21,36 @@ class ConfigController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Category ID not found'
+                'message' => ''
             ]);
         }
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:30',
-            'slogan' => 'required|max:150',
-            'email' => 'required|email|max:191',
-            'phone' => 'required|min:10',
-            'address' => 'required|max:150',
-            'price_ship' => 'required|max:191'
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|max:30',
+                'slogan' => 'required|max:150',
+                'email' => 'required|email|max:30',
+                'phone' => 'required|min:10',
+                'address' => 'required|max:150',
+            ],
+            [
+                'name.required' => 'Vui lòng nhập tên website',
+                'name.max' => "Tên website không được hơn 30 ký tự",
+                'slogan.required' => "Vui lòng nhập câu slogan cho website",
+                'slogan.max' => '"Slogan không được dài hơn 150 ký tự',
+                'email.required' => 'Vui lòng nhập email website',
+                'email.email' => 'Email không đúng định dạng',
+                'phone.required' => 'Vui lòng nhập số điện thoại',
+                'email.max' => 'Email không được dài hơn 30 ký tự',
+                'phone.min' => 'Số điện thoại không được nhỏ hơn 10 ký tự',
+                'address.required' => "Vui lòng nhập địa chỉ website",
+                'address.required' => 'Địa chỉ không được dài hơn 150 ký tự'
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json([
@@ -52,18 +67,17 @@ class ConfigController extends Controller
                 $config->email = $request->input('email');
                 $config->address = $request->input('address');
                 $config->phone = $request->input('phone');
-                $config->price_ship = $request->input('price_ship');
 
                 $config->save();
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Updated config successfully'
+                    'message' => 'Đã cập nhật cấu hình website'
                 ]);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Can not updated config'
+                    'message' => 'Hiện tại không thể cập nhật cấu hình'
                 ]);
             }
         }

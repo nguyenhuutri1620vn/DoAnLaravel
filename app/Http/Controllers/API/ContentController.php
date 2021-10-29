@@ -26,8 +26,23 @@ class ContentController extends Controller
             'name' => 'required|unique:content,name|max:191',
             'description' => 'required|max:3000',
             'meta_title' => 'required|unique:content,meta_title|max:191',
-            'meta_keyword' => 'required|unique:content,meta_keyword|max:191',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ],
+        [
+            'description.required' => "Vui lòng nhập mô tả tin tức",
+            'description.max' => "Nội dung tin tức không được quá 3000 ký tự",
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'meta_title.unique' => "Meta title đã được thêm",
+            'name.required' => 'Vui lòng nhập tên tin tức',
+            'name.max' => 'Tên tin tức không được quá dài',
+            'name.unique'=> "Tên tin tức đã được thêm",
+            'slug.required' => "Vui lòng nhập slug tin tức",
+            'slug.max' => "slug không được dài 191 ký tự",
+            'image.required' => "Vui lòng thêm file ảnh",
+            'image.image' => 'Vui lòng chọn file hình ảnh',
+            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg',
+            'image.max' => 'File ảnh không quá 2MB'
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +73,7 @@ class ContentController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Created content successfully'
+                'message' => 'Tin tức đã được thêm'
             ]);
         }
     }
@@ -73,7 +88,7 @@ class ContentController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Content ID not found'
+                'message' => 'Không tìm thấy mã tin tức'
             ]);
         }
     }
@@ -85,6 +100,18 @@ class ContentController extends Controller
             'description' => 'required|max:3000',
             'meta_title' => 'required|max:191',
             'meta_keyword' => 'required|max:191',
+        ],
+        [
+            'description.required' => "Vui lòng nhập mô tả tin tức",
+            'description.max' => "Nội dung tin tức không được quá 3000 ký tự",
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'meta_title.unique' => "Meta title đã được thêm",
+            'name.required' => 'Vui lòng nhập tên tin tức',
+            'name.max' => 'Tên tin tức không được quá dài',
+            'name.unique'=> "Tên tin tức đã được thêm",
+            'slug.required' => "Vui lòng nhập slug tin tức",
+            'slug.max' => "slug không được dài 191 ký tự",
         ]);
 
         if ($validator->fails()) {
@@ -119,12 +146,12 @@ class ContentController extends Controller
     
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Updated content successfully'
+                    'message' => 'Đã cập nhật tin tức'
                 ]);
             }else{
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Content ID not found'
+                    'message' => 'Không tìm thấy mã tin tức'
                 ]);
             }
         }
@@ -136,12 +163,12 @@ class ContentController extends Controller
             $content->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Content deleted successfully'
+                'message' => 'Đã xóa tin tức'
             ]);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Content ID not found'
+                'message' => 'Không tìm thấy mã tin tức'
             ]);
         }
     }

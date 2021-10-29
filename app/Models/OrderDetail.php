@@ -15,4 +15,8 @@ class OrderDetail extends Model
         'count',
         'price'
     ];
+    protected $with = ['product'];
+    public function product(){
+        return $this->belongsTo(Product::class, 'productID', 'id');
+    }
 }

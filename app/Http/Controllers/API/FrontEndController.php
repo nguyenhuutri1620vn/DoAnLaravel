@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Config;
 use App\Models\Content;
 use App\Models\Product;
+use App\Models\Users;
 
 class FrontEndController extends Controller
 {
@@ -50,13 +51,13 @@ class FrontEndController extends Controller
             } else {
                 return response()->json([
                     'status' => 400,
-                    'message' => 'Can not found product',
+                    'message' => 'Không tìm thấy sản phẩm',
                 ]);
             };
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Can not found category',
+                'message' => 'Không tìm thấy mã loại sản phẩm',
             ]);
         }
     }
@@ -81,13 +82,13 @@ class FrontEndController extends Controller
             } else {
                 return response()->json([
                     'status' => 400,
-                    'message' => 'Can not found product',
+                    'message' => 'Không tim thấy mã sản phẩm',
                 ]);
             };
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Can not found category',
+                'message' => 'Không tìm thấy mã loại sản phẩm',
             ]);
         }
     }
@@ -108,7 +109,24 @@ class FrontEndController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Can not found content'
+                'message' => 'Không tìm thấy tin tức'
+            ]);
+        }
+    }
+
+    public function getuser_w()
+    {
+        $userID = auth('sanctum')->user()->id;
+        $user = Users::where('id', $userID)->first();
+        if ($user) {
+            return response()->json([
+                'status' => 200,
+                'user' => $user,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 401,
+                'message' => "Không tìm thấy mã khách hàng"
             ]);
         }
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Users;
-use Illuminate\Http\Request;
 
 class UserStaffController extends Controller
 {
@@ -31,7 +30,7 @@ class UserStaffController extends Controller
 
         return response()->json([
             'status'=>200,
-            'message'=>'Successfully'
+            'message'=>'Cố gắng làm việc nhen'
         ]);
     }
 
@@ -43,7 +42,7 @@ class UserStaffController extends Controller
 
         return response()->json([
             'status'=>200,
-            'message'=>'Successfully'
+            'message'=>'Tạm biệt nhân viên !!'
         ]);
     }
 }

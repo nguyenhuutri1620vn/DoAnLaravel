@@ -24,9 +24,22 @@ class CategoryController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'meta_title' => 'required|max:191',
-            'name' => 'required|max:191',
+            'name' => 'required|max:30|unique:category,name',
             'slug' => 'required|max:191',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ],
+        [
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'name.required' => 'Vui lòng nhập tên loại sản phẩm',
+            'name.max' => 'Tên loại sản phẩm không được quá dài',
+            'name.unique'=> "Tên loại sản phẩm đã được thêm",
+            'slug.required' => "Vui lòng nhập slug loại sản phẩm",
+            'slug.max' => "slug không được dài 191 ký tự",
+            'image.required' => "Vui lòng thêm file ảnh",
+            'image.image' => 'Vui lòng chọn file hình ảnh',
+            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg',
+            'image.max' => 'File ảnh không quá 2MB'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -58,7 +71,7 @@ class CategoryController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Created category successfully'
+                'message' => 'Loại sản phẩm đã được thêm'
             ]);
         }
     }
@@ -73,7 +86,7 @@ class CategoryController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Category ID not found'
+                'message' => 'Không tìm thấy mã loại sản phẩm'
             ]);
         }
     }
@@ -84,7 +97,14 @@ class CategoryController extends Controller
             'meta_title' => 'required|max:191',
             'name' => 'required|max:191',
             'slug' => 'required|max:191',
-
+        ],
+        [
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'name.required' => 'Vui lòng nhập tên loại sản phẩm',
+            'name.max' => 'Tên loại sản phẩm không được quá dài',
+            'slug.required' => "Vui lòng nhập slug loại sản phẩm",
+            'slug.max' => "Slug không được dài 191 ký tự",
         ]);
 
         if ($validator->fails()) {
@@ -122,12 +142,12 @@ class CategoryController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Created category successfully'
+                    'message' => 'Đã cập nhật loại sản phẩm'
                 ]);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Category ID not found'
+                    'message' => 'Không tìm thấy mã loại sản phẩm'
                 ]);
             }
         }
@@ -149,12 +169,12 @@ class CategoryController extends Controller
             $category->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Category deleted successfully'
+                'message' => 'Đã xóa loại sản phẩm'
             ]);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Category ID not found'
+                'message' => 'Không tìm thấy mã sản phẩm'
             ]);
         }
     }

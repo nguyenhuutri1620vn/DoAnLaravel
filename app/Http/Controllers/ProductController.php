@@ -22,14 +22,39 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cateID' => 'required|max:191',
-            'producerID' => 'required|max:191',
-            'name' => 'required|max:191',
-            'meta_title' => 'required|max:191',
+            'cateID' => 'required',
+            'producerID' => 'required',
+            'name' => 'required|max:191|unique:product,name',
+            'meta_title' => 'required|max:191|unique:product,meta_title',
             'number' => 'required|numeric|max:200|min:1',
-            'selling_price' => 'required|numeric|max:1000000|min:1',
-            'original_price' => 'required|numeric|max:99999999|min:1',
+            'selling_price' => 'required|numeric|max:99999999|min:1000',
+            'original_price' => 'numeric|max:99999999|min:1000',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ],
+        [
+            'cateID.required' => 'Vui lòng chọn loại sản phẩm',
+            'producerID.required' => 'Vui lòng chọn thương hiệu',
+            'name.required' => 'Vui lòng nhập tên sản phẩm',
+            'name.max' => 'Tên sản phẩm không được quá dài',
+            'name.unique'=> "Tên sản phẩm đã được thêm",
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'meta_title.unique' => 'Meta title đã tồn tại',
+            'image.required' => "Vui lòng thêm file ảnh",
+            'image.image' => 'Vui lòng chọn file hình ảnh',
+            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg',
+            'image.max' => 'File ảnh không quá 2MB',
+            'number.required'=>'Vui lòng nhập số lượng',
+            'number.numberic'=>'Dữ liệu nhập vào phải là chữ số',
+            'number.max'=>'Giá trị tiền tệ không hợp lệ',
+            'number.min'=>'Giá trị tiền tệ không hợp lệ',
+            'selling_price.required'=>"Vui lòng nhập giá bán",
+            'selling_price.numberic'=>"Dữ liệu nhập vào phải là chữ số",
+            'selling_price.max'=>"Giá trị tiền tệ không hợp lệ",
+            'selling_price.min'=>"Giá trị tiền tệ không hợp lệ",
+            'original_price.numberic'=>"Dữ liệu nhập vào phải là chữ số (không nhỏ hơn 1.000 VNĐ)",
+            'original_price.max'=>"Giá trị tiền tệ không hợp lệ",
+            'original_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ)",
         ]);
 
         if ($validator->fails()) {
@@ -57,9 +82,6 @@ class ProductController extends Controller
                 $file->move('uploads/product/', $filename);
                 $product->image = 'uploads/product/' . $filename;
             }
-
-
-
             $product->number = $request->input('number');
             $product->original_price = $request->input('original_price');
             $product->selling_price = $request->input('selling_price');
@@ -71,7 +93,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Created product successfully',
+                'message' => 'Đã thêm sản phẩm',
             ]);
         }
     }
@@ -87,7 +109,7 @@ class ProductController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Product do not found',
+                'message' => 'Không tìm thấy mã sản phẩm',
             ]);
         }
     }
@@ -101,8 +123,27 @@ class ProductController extends Controller
             'meta_title' => 'required|max:191',
             'meta_keyword' => 'required|max:191',
             'number' => 'required|numeric|max:100|min:1',
-            'selling_price' => 'required|numeric|max:1000000|min:1',
-            'original_price' => 'required|numeric|max:99999999|min:1',
+            'selling_price' => 'required|numeric|max:99999999|min:1000',
+            'original_price' => 'numeric|max:99999999|min:1000',
+        ],
+        [
+            'cateID.required' => 'Vui lòng chọn loại sản phẩm',
+            'producerID.required' => 'Vui lòng chọn thương hiệu',
+            'name.required' => 'Vui lòng nhập tên sản phẩm',
+            'name.max' => 'Tên sản phẩm không được quá dài',
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'number.required'=>'Vui lòng nhập số lượng',
+            'number.numberic'=>'Dữ liệu nhập vào phải là chữ số',
+            'number.max'=>'Giá trị tiền tệ không hợp lệ',
+            'number.min'=>'Giá trị tiền tệ không hợp lệ ',
+            'selling_price.required'=>"Vui lòng nhập giá bán",
+            'selling_price.numberic'=>"Dữ liệu nhập vào phải là chữ số",
+            'selling_price.max'=>"Giá trị tiền tệ không hợp lệ",
+            'selling_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ)",
+            'original_price.numberic'=>"Dữ liệu nhập vào phải là chữ số",
+            'original_price.max'=>"Giá trị tiền tệ không hợp lệ",
+            'original_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ)",
         ]);
 
         if ($validator->fails()) {
@@ -149,12 +190,12 @@ class ProductController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Updated product successfully',
+                    'message' => 'Đã cập nhật sản phẩm',
                 ]);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Product do not found',
+                    'message' => 'Không tìm thấy mã sản phẩm',
                 ]);
             }
         }
@@ -166,12 +207,12 @@ class ProductController extends Controller
             $product->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'Product deleted successfully'
+                'message' => 'Đã xóa sản phẩm'
             ]);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Product ID not found'
+                'message' => 'Không tìm thấy mã sản phẩm'
             ]);
         }
     }

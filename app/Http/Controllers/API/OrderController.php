@@ -17,24 +17,24 @@ class OrderController extends Controller
     {
         if (auth('sanctum')->check()) {
             $userID = auth('sanctum')->user()->id;
-            $province = Province::all();
             $user = Users::where('id', $userID)->first();
+            $province = Province::all();
             if ($user) {
                 return response()->json([
                     'status' => 200,
                     'user' => $user,
-                    'province' => $province,
+                    'province' => $province
                 ]);
             } else {
                 return response()->json([
                     'status' => 401,
-                    'message' => "Can not found User ID"
+                    'message' => "Không tìm được mã khách hàng"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "Please login to add item to cart"
+                'message' => "Đăng nhập để tiếp tục"
             ]);
         }
     }
@@ -50,12 +50,25 @@ class OrderController extends Controller
     public function placeorder(Request $request)
     {
         if (auth('sanctum')->check()) {
-            $validator = Validator::make($request->all(), [
-                'provinceID' => 'required',
-                'phone' => 'required|min:10|max:10',
-                'districtID' => 'required',
-                'address' => 'required|max:255'
-            ]);
+
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'provinceID' => 'required',
+                    'phone' => 'required|max:10|min:10',
+                    'districtID' => 'required',
+                    'address' => 'required|max:255'
+                ],
+                [
+                    'provinceID.required' => "Vui lòng chọn tỉnh - thành phố",
+                    'phone.required' => "Vui lòng nhập số điện thoại",
+                    'phone.max' => "Số điện thoại không hợp lệ",
+                    'phone.min' => 'Số điện thoại không hợp lệ',
+                    'districtID.required' => 'Vui lòng chọn quận - huyện',
+                    'address.required' => 'Vui lòng nhập nhập địa chỉ',
+                    'address.max' => 'Địa chỉ không hợp lệ (quá dài)',
+                ]
+            );
 
             if ($validator->fails()) {
                 return response()->json([
@@ -99,13 +112,13 @@ class OrderController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => "Order Placed Successfully"
+                    'message' => "Mua hàng thành công"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "You must login to confirm checkout"
+                'message' => "Bạn cẩn đăng nhập để thanh toán"
             ]);
         }
     }
@@ -113,12 +126,24 @@ class OrderController extends Controller
     public function validateorder(Request $request)
     {
         if (auth('sanctum')->check()) {
-            $validator = Validator::make($request->all(), [
-                'provinceID' => 'required',
-                'phone' => 'required|min:10|max:10',
-                'districtID' => 'required',
-                'address' => 'required|max:255'
-            ]);
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'provinceID' => 'required',
+                    'phone' => 'required|min:10|max:10',
+                    'districtID' => 'required',
+                    'address' => 'required|max:255'
+                ],
+                [
+                    'provinceID.required' => "Vui lòng chọn tỉnh - thành phố",
+                    'phone.required' => "Vui lòng nhập số điện thoại",
+                    'phone.max' => "Số điện thoại không hợp lệ",
+                    'phone.min' => 'Số điện thoại không hợp lệ',
+                    'districtID.required' => 'Vui lòng chọn quận - huyện',
+                    'address.required' => 'Vui lòng nhập nhập địa chỉ',
+                    'address.max' => 'Địa chỉ không hợp lệ (quá dài)',
+                ]
+            );
 
             if ($validator->fails()) {
                 return response()->json([
@@ -129,13 +154,13 @@ class OrderController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => "Form validate Successfully"
+                    'message' => "Xác nhận thông tin"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "You must login to confirm checkout"
+                'message' => "Bạn cần đăng nhập để xác nhận thông tin"
             ]);
         }
     }

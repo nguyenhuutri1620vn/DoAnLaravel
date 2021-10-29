@@ -21,7 +21,7 @@ class CartController extends Controller
                 if (Cart::where('productID', $productID)->where('userID', $userID)->exists()) {
                     return response()->json([
                         'status' => 409,
-                        'message' => $productCheck->name . "Already added to cart"
+                        'message' => $productCheck->name . "Mặt hàng đã được thêm"
                     ]);
                 } else {
                     $cartitem = new Cart;
@@ -32,19 +32,19 @@ class CartController extends Controller
 
                     return response()->json([
                         'status' => 201,
-                        'message' => "Add item to cart successfully"
+                        'message' => "Thêm sản phẩm vào giỏ hàng thành công"
                     ]);
                 }
             } else {
                 return response()->json([
                     'status' => 409,
-                    'message' => "Can not found product"
+                    'message' => "Không tìm thấy sản phẩm"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "Please login to add item to cart"
+                'message' => "Vui lòng đăng nhập để thêm giỏ hàng"
             ]);
         }
     }
@@ -61,7 +61,7 @@ class CartController extends Controller
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "Please login to add item to cart"
+                'message' => "Vui lòng đăng nhập để xem giỏ hàng"
             ]);
         }
     }
@@ -84,7 +84,7 @@ class CartController extends Controller
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "Login to continue"
+                'message' => "Đăng nhập để tiếp tục"
             ]);
         }
     }
@@ -98,18 +98,18 @@ class CartController extends Controller
                 $cartitem->delete();
                 return response()->json([
                     'status' => 200,
-                    'message' => "Cart item removed successfully"
+                    'message' => "Đã xóa sản phẩm khỏi giỏ hàng"
                 ]);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => "Cart item not exist"
+                    'message' => "Sản phẩm không tổn tại"
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => "Login to continue"
+                'message' => "Đăng nhập để tiếp tục"
             ]);
         }
     }

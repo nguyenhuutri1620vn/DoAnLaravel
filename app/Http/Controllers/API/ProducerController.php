@@ -23,9 +23,17 @@ class ProducerController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'meta_title' => 'required|max:191',
-            'name' => 'required|max:191',
+            'name' => 'required|max:191|uique:producer,name',
             'slug' => 'required|max:191',
-            'description' => 'required'
+        ],
+        [
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'name.required' => 'Vui lòng nhập tên thương hiệu',
+            'name.max' => 'Tên thương hiệu không được quá dài',
+            'name.unique'=> "Tên thương hiệu đã được thêm",
+            'slug.required' => "Vui lòng nhập slug thương hiệu",
+            'slug.max' => "Slug không được dài 191 ký tự",
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -48,7 +56,7 @@ class ProducerController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Created producer successfully'
+                'message' => 'Đã thêm thương hiệu'
             ]);
         }
     }
@@ -63,7 +71,7 @@ class ProducerController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Producer ID not found'
+                'message' => 'Không tìm thấy mã thương hiệu'
             ]);
         }
     }
@@ -74,6 +82,14 @@ class ProducerController extends Controller
             'meta_title' => 'required|max:191',
             'name' => 'required|max:191',
             'slug' => 'required|max:191',
+        ],
+        [
+            'meta_title.required' => 'Vui lòng nhập meta title',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'name.required' => 'Vui lòng nhập tên thương hiệu',
+            'name.max' => 'Tên thương hiệu không được quá dài',
+            'slug.required' => "Vui lòng nhập slug thương hiệu",
+            'slug.max' => "Slug không được dài 191 ký tự",
         ]);
         
         if ($validator->fails()) {
@@ -98,12 +114,12 @@ class ProducerController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Created producer successfully'
+                    'message' => 'Đã thêm thương hiệu'
                 ]);
             } else {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'producer ID not found'
+                    'message' => 'Không tìm thấy mã thương hiệu'
                 ]);
             }
         }
@@ -125,12 +141,12 @@ class ProducerController extends Controller
             $producer->delete();
             return response()->json([
                 'status'=>200,
-                'message'=>'Producer deleted successfully'
+                'message'=>'Đã xóa thương hiệu'
             ]);
         }else{
             return response()->json([
                 'status' => 404,
-                'message' => 'Producer ID not found'
+                'message' => 'Không thấy mã thương hiệu'
             ]);
         }
     }

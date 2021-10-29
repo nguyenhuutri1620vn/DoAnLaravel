@@ -9,10 +9,12 @@ use App\Http\Controllers\API\FrontEndController;
 use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProducerController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserStaffController;
 use App\Http\Controllers\ProductController;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -25,12 +27,17 @@ Route::post('register', [AuthController::class, 'register']);
 Route::get('footer',[FrontEndController::class,'footer']);
 
 Route::get('home',[HomeController::class, 'index']);
-
+Route::get('getUser_w', [FrontEndController::class, 'getUSer_w']);
+Route::post('update-profile', [UserController::class, 'updateprofile']);
+Route::get('allprovince', [UserController::class, 'allprovince']);
+Route::get('alldistict/{province_id}', [UserController::class, 'alldistict']);
+Route::post('change-password', [UserController::class, 'changepassword']);
+Route::get('getorderhistory', [UserController::class, 'orderhistory']);
+Route::get('orderitem/{id}', [UserController::class, 'orderitem']);
 //product
 Route::get('product',[FrontEndController::class, 'viewproduct']);
 Route::get('fetchproducts/{slug}',[FrontEndController::class, 'viewproductcategory']);
 Route::get('viewproductdetail/{category_slug}/{product_id}', [FrontEndController::class, 'productdetail']);
-
 Route::get('detailcontent/{content}', [FrontEndController::class, 'detailcontent']);
 
 //cart
