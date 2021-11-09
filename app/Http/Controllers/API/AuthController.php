@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Users;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -39,11 +40,15 @@ class AuthController extends Controller
                     'message' => 'Mật khẩu hoặc tài khoản không đúng'
                 ]);
             } else {
-                if ($user->role_as == 1) //1==admin
+                if ($user->role_as == 2) //1==admin
                 {
                     $role = 'admin';
                     $token = $user->createToken($user->username . '_AdminToken', ['server:admin'])->plainTextToken;
-                } else {
+                } else if ($user->role_as == 1) //1== staff
+                {
+                    $role = 'staff';
+                    $token = $user->createToken($user->username . '_AdminToken', ['server:staff'])->plainTextToken;
+                }else{
                     $role = '';
                     $token = $user->createToken($user->username . '_Token', [''])->plainTextToken;
                 }
@@ -123,6 +128,14 @@ class AuthController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Đăng xuất thành công !!'
+        ]);
+    }
+    public function check(){
+        $user_role = auth('sanctum')->user()->role_as;
+        $user = Users::where('role_as', $user_role)->first();
+        return response()->json([
+            'status'=>200,
+            'users'=>$user
         ]);
     }
 }

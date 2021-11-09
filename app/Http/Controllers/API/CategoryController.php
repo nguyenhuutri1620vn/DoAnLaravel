@@ -19,27 +19,29 @@ class CategoryController extends Controller
         ]);
     }
 
-
     public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
             'meta_title' => 'required|max:191',
             'name' => 'required|max:30|unique:category,name',
-            'slug' => 'required|max:191',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'slug' => 'required|max:191|unique:category,slug',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'description'=>'required'
         ],
         [
-            'meta_title.required' => 'Vui lòng nhập meta title',
-            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
-            'name.required' => 'Vui lòng nhập tên loại sản phẩm',
-            'name.max' => 'Tên loại sản phẩm không được quá dài',
-            'name.unique'=> "Tên loại sản phẩm đã được thêm",
-            'slug.required' => "Vui lòng nhập slug loại sản phẩm",
-            'slug.max' => "slug không được dài 191 ký tự",
+            'meta_title.required' => 'Vui lòng nhập meta title. ',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự. ',
+            'name.required' => 'Vui lòng nhập tên loại sản phẩm. ',
+            'name.max' => 'Tên loại sản phẩm không được quá dài. ',
+            'name.unique'=> "Tên loại sản phẩm đã được thêm. ",
+            'description.required' => 'Vui lòng nhập mô tả. ',
+            'slug.required' => "Vui lòng nhập slug loại sản phẩm. ",
+            'slug.max' => "slug không được dài 191 ký tự. ",
+            'slug.unique' => "slug đã được thêm. ",
             'image.required' => "Vui lòng thêm file ảnh",
-            'image.image' => 'Vui lòng chọn file hình ảnh',
-            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg',
-            'image.max' => 'File ảnh không quá 2MB'
+            'image.image' => 'Vui lòng chọn file hình ảnh. ',
+            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg. ',
+            'image.max' => 'File ảnh không quá 2MB. '
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -49,7 +51,6 @@ class CategoryController extends Controller
         } else {
 
             $category = new Category;
-
             $category->meta_title = $request->input('meta_title');
             $category->meta_keyword = $request->input('meta_keyword');
             $category->meta_descrip = $request->input('meta_descrip');
@@ -97,10 +98,12 @@ class CategoryController extends Controller
             'meta_title' => 'required|max:191',
             'name' => 'required|max:191',
             'slug' => 'required|max:191',
+            'description' => 'required',
         ],
         [
             'meta_title.required' => 'Vui lòng nhập meta title',
             'meta_title.max' => 'Meta title không dài quá 191 ký tự',
+            'description.required' => 'Vui lòng nhập mô tả',
             'name.required' => 'Vui lòng nhập tên loại sản phẩm',
             'name.max' => 'Tên loại sản phẩm không được quá dài',
             'slug.required' => "Vui lòng nhập slug loại sản phẩm",

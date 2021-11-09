@@ -29,20 +29,20 @@ class ContentController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ],
         [
-            'description.required' => "Vui lòng nhập mô tả tin tức",
-            'description.max' => "Nội dung tin tức không được quá 3000 ký tự",
-            'meta_title.required' => 'Vui lòng nhập meta title',
-            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
-            'meta_title.unique' => "Meta title đã được thêm",
-            'name.required' => 'Vui lòng nhập tên tin tức',
-            'name.max' => 'Tên tin tức không được quá dài',
-            'name.unique'=> "Tên tin tức đã được thêm",
-            'slug.required' => "Vui lòng nhập slug tin tức",
-            'slug.max' => "slug không được dài 191 ký tự",
-            'image.required' => "Vui lòng thêm file ảnh",
-            'image.image' => 'Vui lòng chọn file hình ảnh',
-            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg',
-            'image.max' => 'File ảnh không quá 2MB'
+            'description.required' => "Vui lòng nhập mô tả tin tức. ",
+            'description.max' => "Nội dung tin tức không được quá 3000 ký tự. ",
+            'meta_title.required' => 'Vui lòng nhập meta title. ',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự. ',
+            'meta_title.unique' => "Meta title đã được thêm. ",
+            'name.required' => 'Vui lòng nhập tên tin tức. ',
+            'name.max' => 'Tên tin tức không được quá dài. ',
+            'name.unique'=> "Tên tin tức đã được thêm. ",
+            'slug.required' => "Vui lòng nhập slug tin tức. ",
+            'slug.max' => "slug không được dài 191 ký tự. ",
+            'image.required' => "Vui lòng thêm file ảnh. ",
+            'image.image' => 'Vui lòng chọn file hình ảnh. ',
+            'image.mimes' => 'Vui lòng chọn file có đuối: jpeg, png, jpg. ',
+            'image.max' => 'File ảnh không quá 2MB. '
         ]);
 
         if ($validator->fails()) {
@@ -102,16 +102,16 @@ class ContentController extends Controller
             'meta_keyword' => 'required|max:191',
         ],
         [
-            'description.required' => "Vui lòng nhập mô tả tin tức",
-            'description.max' => "Nội dung tin tức không được quá 3000 ký tự",
-            'meta_title.required' => 'Vui lòng nhập meta title',
-            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
-            'meta_title.unique' => "Meta title đã được thêm",
-            'name.required' => 'Vui lòng nhập tên tin tức',
-            'name.max' => 'Tên tin tức không được quá dài',
-            'name.unique'=> "Tên tin tức đã được thêm",
-            'slug.required' => "Vui lòng nhập slug tin tức",
-            'slug.max' => "slug không được dài 191 ký tự",
+            'description.required' => "Vui lòng nhập mô tả tin tức. ",
+            'description.max' => "Nội dung tin tức không được quá 3000 ký tự. ",
+            'meta_title.required' => 'Vui lòng nhập meta title. ',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự. ',
+            'meta_title.unique' => "Meta title đã được thêm. ",
+            'name.required' => 'Vui lòng nhập tên tin tức. ',
+            'name.max' => 'Tên tin tức không được quá dài. ',
+            'name.unique'=> "Tên tin tức đã được thêm. ",
+            'slug.required' => "Vui lòng nhập slug tin tức. ",
+            'slug.max' => "slug không được dài 191 ký tự. ",
         ]);
 
         if ($validator->fails()) {

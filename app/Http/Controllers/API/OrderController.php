@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Content;
 use App\Models\District;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Province;
 use App\Models\Users;
 use Illuminate\Http\Request;
@@ -60,13 +62,13 @@ class OrderController extends Controller
                     'address' => 'required|max:255'
                 ],
                 [
-                    'provinceID.required' => "Vui lòng chọn tỉnh - thành phố",
-                    'phone.required' => "Vui lòng nhập số điện thoại",
-                    'phone.max' => "Số điện thoại không hợp lệ",
-                    'phone.min' => 'Số điện thoại không hợp lệ',
-                    'districtID.required' => 'Vui lòng chọn quận - huyện',
-                    'address.required' => 'Vui lòng nhập nhập địa chỉ',
-                    'address.max' => 'Địa chỉ không hợp lệ (quá dài)',
+                    'provinceID.required' => "Vui lòng chọn tỉnh - thành phố. ",
+                    'phone.required' => "Vui lòng nhập số điện thoại. ",
+                    'phone.max' => "Số điện thoại không hợp lệ. ",
+                    'phone.min' => 'Số điện thoại không hợp lệ. ',
+                    'districtID.required' => 'Vui lòng chọn quận - huyện. ',
+                    'address.required' => 'Vui lòng nhập nhập địa chỉ. ',
+                    'address.max' => 'Địa chỉ không hợp lệ (quá dài). ',
                 ]
             );
 
@@ -89,8 +91,9 @@ class OrderController extends Controller
                 $order->payment_mode = $request->payment_mode;
                 $order->paymentID = $request->payment_id;
 
+                $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+                $order->tracking_no = substr(str_shuffle($permitted_chars), 0, 6);;
 
-                $order->tracking_no = 'fundaecom' . rand(1111, 9999);
                 $order->save();
 
                 $cart = Cart::where('userID',  $userid)->get();
@@ -135,13 +138,13 @@ class OrderController extends Controller
                     'address' => 'required|max:255'
                 ],
                 [
-                    'provinceID.required' => "Vui lòng chọn tỉnh - thành phố",
-                    'phone.required' => "Vui lòng nhập số điện thoại",
-                    'phone.max' => "Số điện thoại không hợp lệ",
-                    'phone.min' => 'Số điện thoại không hợp lệ',
-                    'districtID.required' => 'Vui lòng chọn quận - huyện',
-                    'address.required' => 'Vui lòng nhập nhập địa chỉ',
-                    'address.max' => 'Địa chỉ không hợp lệ (quá dài)',
+                    'provinceID.required' => "Vui lòng chọn tỉnh - thành phố. ",
+                    'phone.required' => "Vui lòng nhập số điện thoại. ",
+                    'phone.max' => "Số điện thoại không hợp lệ. ",
+                    'phone.min' => 'Số điện thoại không hợp lệ. ',
+                    'districtID.required' => 'Vui lòng chọn quận - huyện. ',
+                    'address.required' => 'Vui lòng nhập nhập địa chỉ. ',
+                    'address.max' => 'Địa chỉ không hợp lệ (quá dài). ',
                 ]
             );
 
@@ -163,5 +166,61 @@ class OrderController extends Controller
                 'message' => "Bạn cần đăng nhập để xác nhận thông tin"
             ]);
         }
+    }
+
+    public function view()
+    {
+        $order = Order::all();
+        return response()->json([
+            'status' => 200,
+            'order' => $order,
+        ]);
+    }
+    public function updatewaitingorder($order_id)
+    {
+        // $orderwaiting = Order::find($order_id);
+        $orderwaiting = Order::where('id', $order_id)->first();
+        $orderwaiting->status = 1;
+        $orderwaiting->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Đơn hàng đã được duyệt'
+        ]);
+    }
+    public function updateshippingorder($order_id)
+    {
+        // $orderwaiting = Order::find($order_id);
+        $orderwaiting = Order::where('id', $order_id)->first();
+        $orderwaiting->status = 2;
+        $orderwaiting->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Đơn hàng giao thành công'
+        ]);
+    }
+    public function cancelorder($order_id)
+    {
+        // $orderwaiting = Order::find($order_id);
+        $orderwaiting = Order::where('id', $order_id)->first();
+        $orderwaiting->status = 3;
+        $orderwaiting->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Hủy đơn hàng thành công'
+        ]);
+    }
+    public function getdashboard()
+    {
+        $order = Order::all();
+        $content = Content::all();
+        $product = Product::all();
+        $user = Users::where('role_as', 1)->get();
+        return response()->json([
+            'status' => 200,
+            'order' => $order,
+            'content' => $content,
+            'product' => $product,
+            'user' => $user,
+        ]);
     }
 }

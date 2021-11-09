@@ -27,4 +27,9 @@ class Order extends Model
     public function orderitem(){
         return $this->hasMany(OrderDetail::class, 'orderID', 'id');
     }
+
+    protected $with = ['users'];
+    public function users(){
+        return $this->belongsTo(Users::class, 'userID', 'id');
+    }
 }

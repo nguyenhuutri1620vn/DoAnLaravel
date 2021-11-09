@@ -55,8 +55,10 @@ Route::post('validate-order', [OrderController::class, 'validateorder']);
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
     Route::get('/checkingAuthenticated', function () {
-        return response()->json(['message' => "You are in", 'status' => 200], 200);
+        return response()->json(['message' => "Bạn đã ở đây", 'status' => 200], 200);
     });
+    Route::get('check-admin-staff', [AuthController::class, 'check']);
+
     //category
     Route::post('store-category', [CategoryController::class, 'store']);
     Route::get('view-category', [CategoryController::class, 'index']);
@@ -64,7 +66,6 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::post('update-category/{id}', [CategoryController::class, 'update']);
     Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
     Route::get('all-category', [CategoryController::class, 'allcategory']);
-
 
     //Producer
     Route::post('store-producer', [ProducerController::class, 'store']);
@@ -100,7 +101,14 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::get('edit-config/{id}', [ConfigController::class, 'edit']);
     Route::put('update-config/{id}', [ConfigController::class, 'update']);
 
-  
+    //order
+    Route::get('view-order', [OrderController::class, 'view']);
+    Route::post('update-waitingorder/{order_id}', [OrderController::class, 'updatewaitingorder']);
+    Route::post('update-shippingorder/{order_id}', [OrderController::class, 'updateshippingorder']);
+    Route::post('cancel-order/{order_id}', [OrderController::class, 'cancelorder']);
+
+    //dashboard
+    Route::get('dashboard', [OrderController::class, 'getdashboard']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProducerController extends Controller
 {
-
     public function index()
     {
         $producer = Producer::all();
@@ -23,17 +22,17 @@ class ProducerController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'meta_title' => 'required|max:191',
-            'name' => 'required|max:191|uique:producer,name',
+            'name' => 'required|max:191|unique:producer,name',
             'slug' => 'required|max:191',
         ],
         [
-            'meta_title.required' => 'Vui lòng nhập meta title',
-            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
-            'name.required' => 'Vui lòng nhập tên thương hiệu',
-            'name.max' => 'Tên thương hiệu không được quá dài',
-            'name.unique'=> "Tên thương hiệu đã được thêm",
-            'slug.required' => "Vui lòng nhập slug thương hiệu",
-            'slug.max' => "Slug không được dài 191 ký tự",
+            'meta_title.required' => 'Vui lòng nhập meta title. ',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự. ',
+            'name.required' => 'Vui lòng nhập tên thương hiệu. ',
+            'name.max' => 'Tên thương hiệu không được quá dài. ',
+            'name.unique'=> "Tên thương hiệu đã được thêm. ",
+            'slug.required' => "Vui lòng nhập slug thương hiệu. ",
+            'slug.max' => "Slug không được dài 191 ký tự. ",
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -84,12 +83,12 @@ class ProducerController extends Controller
             'slug' => 'required|max:191',
         ],
         [
-            'meta_title.required' => 'Vui lòng nhập meta title',
-            'meta_title.max' => 'Meta title không dài quá 191 ký tự',
-            'name.required' => 'Vui lòng nhập tên thương hiệu',
-            'name.max' => 'Tên thương hiệu không được quá dài',
-            'slug.required' => "Vui lòng nhập slug thương hiệu",
-            'slug.max' => "Slug không được dài 191 ký tự",
+            'meta_title.required' => 'Vui lòng nhập meta title. ',
+            'meta_title.max' => 'Meta title không dài quá 191 ký tự. ',
+            'name.required' => 'Vui lòng nhập tên thương hiệu. ',
+            'name.max' => 'Tên thương hiệu không được quá dài. ',
+            'slug.required' => "Vui lòng nhập slug thương hiệu. ",
+            'slug.max' => "Slug không được dài 191 ký tự. ",
         ]);
         
         if ($validator->fails()) {

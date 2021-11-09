@@ -19,7 +19,7 @@ class HomeController extends Controller
             ['status', '1'],
             ['number', '>', '0']
         ])
-            ->get();
+           ->get();
         $product_popular = Product::where([
             ['popular', '1'],
             ['status', '1'],

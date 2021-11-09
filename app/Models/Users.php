@@ -15,20 +15,7 @@ class Users extends Model
         'password',
         'fullname',
         'email',
-        'phone' ,
-        'provinceID',
-        'districtID',
-        'address',
+        'phone',
         'image'
     ]; 
-
-    protected $with = ['province', 'district'];
-    public function province(){
-        return $this->belongsTo(Province::class, 'provinceID', 'id');
-    }
-
-    public function district(){
-        return $this->belongsTo(District::class, 'districtID', 'id');
-    }
-
 }
