@@ -50,7 +50,8 @@ Route::get('getUser', [OrderController::class, 'getUSer']);
 Route::post('select-district/{provinceid}', [OrderController::class, 'selectdistrict']);
 Route::post('place-order', [OrderController::class, 'placeorder']);
 Route::post('validate-order', [OrderController::class, 'validateorder']);
-
+//search
+Route::get('search/{search_name}', [FrontEndController::class, 'search']);
 
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 

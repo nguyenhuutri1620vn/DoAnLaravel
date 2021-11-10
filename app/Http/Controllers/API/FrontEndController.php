@@ -130,4 +130,13 @@ class FrontEndController extends Controller
             ]);
         }
     }
+    public function search($search_name)
+    {
+        $product = Product::where('name', 'LIKE' , "%{$search_name}%")->where('status',1)->get();
+        
+        return response()->json([
+            'status' => 200,
+            'product' => $product
+        ]);
+    }
 }

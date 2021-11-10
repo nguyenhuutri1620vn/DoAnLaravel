@@ -21,7 +21,7 @@ class CartController extends Controller
                 if (Cart::where('productID', $productID)->where('userID', $userID)->exists()) {
                     return response()->json([
                         'status' => 409,
-                        'message' => $productCheck->name . "Mặt hàng đã được thêm"
+                        'message' => "Mặt hàng ". $productCheck->name . " đã được thêm"
                     ]);
                 } else {
                     $cartitem = new Cart;
