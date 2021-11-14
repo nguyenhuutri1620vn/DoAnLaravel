@@ -22,13 +22,13 @@ class ApiAdminMiddleware
                 return $next($request);
             } else {
                 return response()->json([
-                    'message' => 'You are not ab admin'
+                    'message' => 'Người dùng không có quyền truy cập.',
                 ], 403);
             }
         } else {
             return response()->json([
                 'status' => 401,
-                'message' => 'Please login first'
+                'message' => 'Vui lòng đăng nhập để tiếp tục'
             ]);
         }
     }

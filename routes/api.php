@@ -56,10 +56,9 @@ Route::get('search/{search_name}', [FrontEndController::class, 'search']);
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
     Route::get('/checkingAuthenticated', function () {
-        return response()->json(['message' => "Bạn đã ở đây", 'status' => 200], 200);
+        return response()->json(['message' => "Sẵn sàng", 'status' => 200], 200);
     });
     Route::get('check-admin-staff', [AuthController::class, 'check']);
-
     //category
     Route::post('store-category', [CategoryController::class, 'store']);
     Route::get('view-category', [CategoryController::class, 'index']);

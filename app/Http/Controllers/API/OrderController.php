@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Content;
 use App\Models\District;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Province;
 use App\Models\Users;
@@ -215,12 +216,32 @@ class OrderController extends Controller
         $content = Content::all();
         $product = Product::all();
         $user = Users::where('role_as', 1)->get();
+        $order_month = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $month = Order::whereMonth('created_at', $i)->count();
+            array_push($order_month, $month);
+        }
+        $totalprice = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $month = Order::whereMonth('created_at', $i)->sum('total_price');
+            array_push($totalprice, $month);
+        }
+        $orderday = Order::whereDate('created_at', date("Y-m-d"))->count();
+        $orderday_money = Order::whereDate('created_at', date("Y-m-d"))->sum('total_price');
+        $product_sold = OrderDetail::whereDate('created_at', date("Y-m-d"))->sum('count');
+        $product_detai_sold = OrderDetail::whereDate('created_at', date("Y-m-d"))->get();
         return response()->json([
             'status' => 200,
             'order' => $order,
             'content' => $content,
             'product' => $product,
             'user' => $user,
+            'month' => $order_month,
+            'totalprice' => $totalprice,
+            'orderday' => $orderday,
+            'money_day' => $orderday_money,
+            'productsold' => $product_sold,
+            'productdetailsold' => $product_detai_sold
         ]);
     }
 }
