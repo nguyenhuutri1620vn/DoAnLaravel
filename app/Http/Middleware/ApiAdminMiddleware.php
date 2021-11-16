@@ -27,8 +27,8 @@ class ApiAdminMiddleware
             }
         } else {
             return response()->json([
-                'status' => 401,
-                'message' => 'Vui lòng đăng nhập để tiếp tục'
+                'status' => 404,
+                'message' => 'Vui lòng đăng nhập để tiếp tục.'
             ]);
         }
     }

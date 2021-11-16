@@ -93,9 +93,9 @@ class UserController extends Controller
                     'error' => $validator->getMessageBag()
                 ]);
             } else {
-                $userID = auth('sanctum')->user()->id;
+                // $userID = auth('sanctum')->user()->id;
 
-                $user = Users::where('id', $userID)->first();
+                // $user = Users::where('id', $userID)->first();
                 $userid = auth('sanctum')->user()->id;
 
                 $user = Users::find($userid);

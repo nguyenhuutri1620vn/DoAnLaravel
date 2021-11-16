@@ -27,8 +27,7 @@ class ProductController extends Controller
             'name' => 'required|max:191|unique:product,name',
             'meta_title' => 'required|max:191|unique:product,meta_title',
             'number' => 'required|numeric|max:200|min:1',
-            'selling_price' => 'required|numeric|max:99999999|min:1000',
-            'original_price' => 'numeric|max:99999999|min:1000',
+            'selling_price' => 'required|numeric|max:99999999999|min:1000',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ],
         [
@@ -52,9 +51,6 @@ class ProductController extends Controller
             'selling_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
             'selling_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
             'selling_price.min'=>"Giá trị tiền tệ không hợp lệ. ",
-            'original_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
-            'original_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
-            'original_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ). ",
         ]);
 
         if ($validator->fails()) {
@@ -123,8 +119,7 @@ class ProductController extends Controller
             'meta_title' => 'required|max:191',
             'meta_keyword' => 'required|max:191',
             'number' => 'required|numeric|max:100|min:1',
-            'selling_price' => 'required|numeric|max:99999999|min:1000',
-            'original_price' => 'numeric|max:99999999|min:1000',
+            'selling_price' => 'required|numeric|max:99999999999|min:1000',
         ],
         [
             'cateID.required' => 'Vui lòng chọn loại sản phẩm. ',
@@ -141,9 +136,6 @@ class ProductController extends Controller
             'selling_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
             'selling_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
             'selling_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ). ",
-            'original_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
-            'original_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
-            'original_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ). ",
         ]);
 
         if ($validator->fails()) {

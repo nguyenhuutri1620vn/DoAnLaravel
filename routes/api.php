@@ -96,7 +96,8 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     //become
     Route::put('isAdmin/{id}', [UserStaffController::class, 'becomeAdmin']);
     Route::put('isUser/{id}', [UserStaffController::class, 'becomeUser']);
-
+    Route::get('edit-staff/{id}', [UserStaffController::class, 'getStaff']);
+    Route::post('update-staff/{id}', [UserStaffController::class , 'updateStaff']);
     //config
     Route::get('edit-config/{id}', [ConfigController::class, 'edit']);
     Route::put('update-config/{id}', [ConfigController::class, 'update']);
