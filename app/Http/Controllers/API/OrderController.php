@@ -199,16 +199,32 @@ class OrderController extends Controller
             'message' => 'Đơn hàng giao thành công'
         ]);
     }
-    public function cancelorder($order_id)
+    public function cancelorder($id)
     {
-        // $orderwaiting = Order::find($order_id);
-        $orderwaiting = Order::where('id', $order_id)->first();
-        $orderwaiting->status = 3;
-        $orderwaiting->save();
-        return response()->json([
-            'status' => 200,
-            'message' => 'Hủy đơn hàng thành công'
-        ]);
+        $order = Order::where('id', $id)->first();
+        $order->total_price= 0;
+        $order->status = 3;
+        $orderdetail = OrderDetail::where('orderID',  $id)->get();
+
+        foreach ($orderdetail as $item) {
+            $item->product->update([
+                'number' => $item->product->number + $item->count
+            ]);
+        }
+        if ($order) {
+            OrderDetail::destroy($orderdetail);
+            $order->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Đã xóa đơn hàng'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Không tìm thấy mã đơn hàng'
+            ]);
+        }
     }
     public function getdashboard()
     {
@@ -226,8 +242,8 @@ class OrderController extends Controller
             $month = Order::whereMonth('created_at', $i)->sum('total_price');
             array_push($totalprice, $month);
         }
-        $orderday = Order::whereDate('created_at', date("Y-m-d"))->count();
-        $orderday_money = Order::whereDate('created_at', date("Y-m-d"))->sum('total_price');
+        $orderday = Order::whereDate('created_at', date("Y-m-d"))->where('status', [0,1,2])->count();
+        $orderday_money = Order::whereDate('created_at', date("Y-m-d"))->where('status', [0,1,2])->sum('total_price');
         $product_sold = OrderDetail::whereDate('created_at', date("Y-m-d"))->sum('count');
         $product_detai_sold = OrderDetail::whereDate('created_at', date("Y-m-d"))->get();
         return response()->json([
@@ -243,5 +259,45 @@ class OrderController extends Controller
             'productsold' => $product_sold,
             'productdetailsold' => $product_detai_sold
         ]);
+    }
+    public function getday($day)
+    {
+        $orderday = Order::whereDate('created_at', $day)->where('status',  [0,1,2])->count();
+        $orderday_money = Order::whereDate('created_at', $day)->where('status',  [0,1,2])->sum('total_price');
+        $product_sold = OrderDetail::whereDate('created_at', $day)->sum('count');
+        $product_detai_sold = OrderDetail::whereDate('created_at', $day)->get();
+        return response()->json([
+            'status' => 200,
+            'orderday' => $orderday,
+            'money_day' => $orderday_money,
+            'productsold' => $product_sold,
+            'productdetailsold' => $product_detai_sold
+        ]);
+    }
+    public function cancelordercus($id)
+    {
+        $order = Order::where('id', $id)->first();
+        $orderdetail = OrderDetail::where('orderID',  $id)->get();
+
+        foreach ($orderdetail as $item) {
+            $item->product->update([
+                'number' => $item->product->number + $item->count
+            ]);
+        }
+        if ($order) {
+            OrderDetail::destroy($orderdetail);
+            $order->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Đã xóa đơn hàng'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Không tìm thấy mã đơn hàng'
+            ]);
+        }
+
     }
 }

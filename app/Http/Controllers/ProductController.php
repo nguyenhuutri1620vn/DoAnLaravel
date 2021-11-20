@@ -29,6 +29,7 @@ class ProductController extends Controller
             'number' => 'required|numeric|max:200|min:1',
             'selling_price' => 'required|numeric|max:99999999999|min:1000',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'description' => 'required'
         ],
         [
             'cateID.required' => 'Vui lòng chọn loại sản phẩm. ',
@@ -51,6 +52,7 @@ class ProductController extends Controller
             'selling_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
             'selling_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
             'selling_price.min'=>"Giá trị tiền tệ không hợp lệ. ",
+            'description.required' => 'Vui lòng thêm mô tả'
         ]);
 
         if ($validator->fails()) {
@@ -120,6 +122,8 @@ class ProductController extends Controller
             'meta_keyword' => 'required|max:191',
             'number' => 'required|numeric|max:100|min:1',
             'selling_price' => 'required|numeric|max:99999999999|min:1000',
+            'description' => 'required'
+
         ],
         [
             'cateID.required' => 'Vui lòng chọn loại sản phẩm. ',
@@ -136,6 +140,7 @@ class ProductController extends Controller
             'selling_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
             'selling_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
             'selling_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ). ",
+            'description.required' => 'Vui lòng thêm mô tả'
         ]);
 
         if ($validator->fails()) {

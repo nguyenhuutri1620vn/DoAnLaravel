@@ -107,9 +107,12 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::post('update-waitingorder/{order_id}', [OrderController::class, 'updatewaitingorder']);
     Route::post('update-shippingorder/{order_id}', [OrderController::class, 'updateshippingorder']);
     Route::post('cancel-order/{order_id}', [OrderController::class, 'cancelorder']);
+    Route::post('cancel-order-cus/{id}', [OrderController::class, 'cancelordercus']);
+
 
     //dashboard
     Route::get('dashboard', [OrderController::class, 'getdashboard']);
+    Route::post('day-order/{day}', [OrderController::class, 'getday']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
