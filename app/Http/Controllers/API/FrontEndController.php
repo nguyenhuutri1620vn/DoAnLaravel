@@ -25,9 +25,23 @@ class FrontEndController extends Controller
             ['status', '1'],
             ['number', '>', '0']
         ])->get();
+        $product_featured = Product::where([
+            ['featured', '1'],
+            ['status', '1'],
+            ['number', '>', '0']
+        ])
+           ->get();
+        $product_popular = Product::where([
+            ['popular', '1'],
+            ['status', '1'],
+            ['number', '>', '0']
+        ])
+            ->get();
         return response()->json([
             'status' => 200,
             'product' => $product,
+            'product_featured' => $product_featured,
+            'product_popular' => $product_popular
         ]);
     }
 

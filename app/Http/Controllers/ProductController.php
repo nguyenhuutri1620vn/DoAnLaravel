@@ -67,6 +67,7 @@ class ProductController extends Controller
             $product->producerID = $request->input('producerID');
             $product->name = $request->input('name');
             $product->description = $request->input('description');
+            $product->video = $request->input('video');
 
             $product->meta_title = $request->input('meta_title');
             $product->meta_keyword = $request->input('meta_keyword');
@@ -175,7 +176,7 @@ class ProductController extends Controller
                     $file->move('uploads/product/', $filename);
                     $product->image = 'uploads/product/' . $filename;
                 }
-
+                $product->video = $request->input('video');
                 $product->number = $request->input('number');
                 $product->original_price = $request->input('original_price');
                 $product->selling_price = $request->input('selling_price');
