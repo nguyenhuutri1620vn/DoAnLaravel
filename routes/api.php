@@ -52,6 +52,7 @@ Route::post('place-order', [OrderController::class, 'placeorder']);
 Route::post('validate-order', [OrderController::class, 'validateorder']);
 //search
 Route::get('search/{search_name}', [FrontEndController::class, 'search']);
+Route::post('cancel-order-cus/{id}', [OrderController::class, 'cancelordercus']);
 
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
@@ -107,7 +108,6 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::post('update-waitingorder/{order_id}', [OrderController::class, 'updatewaitingorder']);
     Route::post('update-shippingorder/{order_id}', [OrderController::class, 'updateshippingorder']);
     Route::post('cancel-order/{order_id}', [OrderController::class, 'cancelorder']);
-    Route::post('cancel-order-cus/{id}', [OrderController::class, 'cancelordercus']);
 
 
     //dashboard
