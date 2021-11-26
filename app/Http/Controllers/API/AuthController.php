@@ -110,12 +110,12 @@ class AuthController extends Controller
                 'phone' => $request->phone
             ]);
 
-            $token = $user->createToken($user->username . '_Token')->plainTextToken;
+            // $token = $user->createToken($user->username . '_Token')->plainTextToken;
 
             return response()->json([
                 'status' => 200,
                 'username' => $user->username,
-                'token' => $token,
+                // 'token' => $token,
                 'message' => "Bạn có thể đăng nhập ngay bây giờ"
             ]);
         }
