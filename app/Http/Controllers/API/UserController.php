@@ -42,7 +42,18 @@ class UserController extends Controller
                 'fullname' => 'required | max: 255',
                 'email' => 'required|email|max:191',
                 'phone' => 'required|max:10|min:10',
-            ]);
+            ],
+            [
+                'fullname.required' => 'Vui lòng nhật họ và tên',
+                'email.required' => 'Vui lòng nhập email',
+                'phone.required' => 'Vui lòng nhập số điện thoại',
+                'fullname.max' => 'Họ và tên không được quá 255 kí tự',
+                'email.email' => 'Email không đúng định dạng',
+                'emal.max' => 'Email không được quá 191 kí tự',
+                'phone.max' => 'Số điện thoại không hợp lệ',
+                'phone.min' => 'Số điện thoại không hợp lệ',
+            ]
+        );
 
             if ($validator->fails()) {
                 return response()->json([
@@ -81,7 +92,7 @@ class UserController extends Controller
                 'confirmpassword' => 'required|required_with:newpassword|same:newpassword',
             ],
             [
-                'currentpasword.required' => "Vui lòng nhập mật khẩu hiện tại",
+                'currentpassword.required' => "Vui lòng nhập mật khẩu hiện tại",
                 'newpassword.required' => 'Vui lòng nhập mật khẩu mới',
                 'newpassword.min' => "Mật khẩu phải hơn 6 ký tự",
                 'confirmpassword.required' => "Vui lòng nhập lại mật khẩu",
