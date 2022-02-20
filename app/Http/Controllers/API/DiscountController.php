@@ -125,4 +125,12 @@ class DiscountController extends Controller
             }
         }
     }
+
+    public function alldiscount(){
+        $discount = Discount::where('status','1')->get();
+        return response()->json([
+            'status' => 200,
+            'discount' => $discount,
+        ]);
+    }
 }

@@ -24,16 +24,19 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'cateID' => 'required',
             'producerID' => 'required',
+            'discountID' => 'required',
+
             'name' => 'required|max:191|unique:product,name',
             'meta_title' => 'required|max:191|unique:product,meta_title',
             'number' => 'required|numeric|max:200|min:1',
-            'selling_price' => 'required|numeric|max:99999999999|min:1000',
+            'original_price' => 'required|numeric|max:99999999999|min:1000',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'description' => 'required'
         ],
         [
             'cateID.required' => 'Vui lòng chọn loại sản phẩm. ',
             'producerID.required' => 'Vui lòng chọn thương hiệu. ',
+            'discountID.required' => 'Vui lòng chọn mã giảm. ',
             'name.required' => 'Vui lòng nhập tên sản phẩm. ',
             'name.max' => 'Tên sản phẩm không được quá dài. ',
             'name.unique'=> "Tên sản phẩm đã được thêm. ",
@@ -48,10 +51,10 @@ class ProductController extends Controller
             'number.numeric'=>'Dữ liệu nhập vào phải là số. ',
             'number.max'=>'Giá trị tiền tệ không hợp lệ (<100). ',
             'number.min'=>'Giá trị tiền tệ không hợp lệ. ',
-            'selling_price.required'=>"Vui lòng nhập giá bán. ",
-            'selling_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
-            'selling_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
-            'selling_price.min'=>"Giá trị tiền tệ không hợp lệ. ",
+            'original_price.required'=>"Vui lòng nhập giá bán. ",
+            'original_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
+            'original_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
+            'original_price.min'=>"Giá trị tiền tệ không hợp lệ. ",
             'description.required' => 'Vui lòng thêm mô tả'
         ]);
 
@@ -65,6 +68,7 @@ class ProductController extends Controller
 
             $product->cateID = $request->input('cateID');
             $product->producerID = $request->input('producerID');
+            $product->discountID = $request->input('discountID');
             $product->name = $request->input('name');
             $product->description = $request->input('description');
             $product->video = $request->input('video');
@@ -118,17 +122,21 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'cateID' => 'required|max:191',
             'producerID' => 'required|max:191',
+            'discountID' => 'required',
+
             'name' => 'required|max:191',
             'meta_title' => 'required|max:191',
             'meta_keyword' => 'required|max:191',
             'number' => 'required|numeric|max:100|min:1',
-            'selling_price' => 'required|numeric|max:99999999999|min:1000',
+            'original_price' => 'required|numeric|max:99999999999|min:1000',
             'description' => 'required'
 
         ],
         [
             'cateID.required' => 'Vui lòng chọn loại sản phẩm. ',
             'producerID.required' => 'Vui lòng chọn thương hiệu. ',
+            'discountID.required' => 'Vui lòng chọn mã giảm. ',
+
             'name.required' => 'Vui lòng nhập tên sản phẩm. ',
             'name.max' => 'Tên sản phẩm không được quá dài. ',
             'meta_title.required' => 'Vui lòng nhập meta title. ',
@@ -137,10 +145,10 @@ class ProductController extends Controller
             'number.numeric'=>'Dữ liệu nhập vào phải là số. ',
             'number.max'=>'Giá trị tiền tệ không hợp lệ (<100). ',
             'number.min'=>'Giá trị tiền tệ không hợp lệ . ',
-            'selling_price.required'=>"Vui lòng nhập giá bán. ",
-            'selling_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
-            'selling_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
-            'selling_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ). ",
+            'original_price.required'=>"Vui lòng nhập giá bán. ",
+            'original_price.numeric'=>"Dữ liệu nhập vào phải là số. ",
+            'original_price.max'=>"Giá trị tiền tệ không hợp lệ. ",
+            'original_price.min'=>"Giá trị tiền tệ không hợp lệ (không nhỏ hơn 1.000 VNĐ). ",
             'description.required' => 'Vui lòng thêm mô tả'
         ]);
 
@@ -156,6 +164,8 @@ class ProductController extends Controller
 
                 $product->cateID = $request->input('cateID');
                 $product->producerID = $request->input('producerID');
+                $product->discountID = $request->input('discountID');
+
                 $product->name = $request->input('name');
                 $product->description = $request->input('description');
 

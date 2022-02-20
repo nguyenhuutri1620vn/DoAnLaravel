@@ -106,6 +106,7 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::delete('delete-discount/{id}', [DiscountController::class, 'destroy']);
     Route::get('edit-discount/{id}', [DiscountController::class, 'edit']);
     Route::post('update-discount/{id}', [DiscountController::class , 'update']);
+    Route::get('all-discount', [DiscountController::class, 'alldiscount']);
 
     //config
     Route::get('edit-config/{id}', [ConfigController::class, 'edit']);
