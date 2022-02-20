@@ -201,7 +201,7 @@ class OrderController extends Controller
     public function cancelorder($id)
     {
         $order = Order::find($id);
-        $order->total_price= 0;
+        $order->total_price = 0;
         $order->status = 3;
         $orderdetail = OrderDetail::where('orderID',  $id)->get();
 
@@ -233,14 +233,21 @@ class OrderController extends Controller
         $user = Users::where('role_as', 1)->get();
         $order_month = [];
         for ($i = 1; $i <= 12; $i++) {
-            $month = Order::whereMonth('created_at', $i)->count();
+            $month = Order::whereMonth('created_at', $i)->whereYear('created_at', '2022')->count();
             array_push($order_month, $month);
         }
         $totalprice = [];
         for ($i = 1; $i <= 12; $i++) {
-            $month = Order::whereMonth('created_at', $i)->sum('total_price');
+            $month = Order::whereMonth('created_at', $i)->whereYear('created_at', '2022')->sum('total_price');
             array_push($totalprice, $month);
         }
+        $totalproductdashboard = [];
+        $totalproductsold = OrderDetail::all()->sum('count');
+        $totalproduct = Product::all()->sum('number');
+        $totalhaventsold = $totalproduct - $totalproductsold;
+        array_push($totalproductdashboard, $totalproductsold);
+        array_push($totalproductdashboard, $totalhaventsold);
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $orderday = Order::whereDate('created_at', date("Y-m-d"))->where('status', '<', '3')->count();
@@ -259,16 +266,17 @@ class OrderController extends Controller
             'money_day' => $orderday_money,
             'productsold' => $product_sold,
             'productdetailsold' => $product_detai_sold,
+            'totalproductdashboard' => $totalproductdashboard
         ]);
     }
-    public function getday($day)
+    public function getday($from, $to)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-        $orderday = Order::whereDate('created_at', $day)->where('status', '<', '3')->count();
-        $orderday_money = Order::whereDate('created_at', $day)->where('status', '<', '3')->sum('total_price');
-        $product_sold = OrderDetail::whereDate('created_at', $day)->sum('count');
-        $product_detai_sold = OrderDetail::whereDate('created_at', $day)->get();
+        $orderday = Order::whereBetween('created_at', [$from, "$to 23:59:59"])->where('status', '<', '3')->count();
+        $orderday_money = Order::whereBetween('created_at', [$from, "$to 23:59:59"])->where('status', '<', '3')->sum('total_price');
+        $product_sold = OrderDetail::whereBetween('created_at', [$from, "$to 23:59:59"])->sum('count');
+        $product_detai_sold = OrderDetail::whereBetween('created_at', [$from, "$to 23:59:59"])->get();
         return response()->json([
             'status' => 200,
             'orderday' => $orderday,
@@ -301,6 +309,24 @@ class OrderController extends Controller
                 'message' => 'Không tìm thấy mã đơn hàng'
             ]);
         }
+    }
 
+    function getyear($year)
+    {
+        $order_month = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $month = Order::whereMonth('created_at', $i)->whereYear('created_at', $year)->count();
+            array_push($order_month, $month);
+        }
+        $totalprice = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $month = Order::whereMonth('created_at', $i)->whereYear('created_at', $year)->sum('total_price');
+            array_push($totalprice, $month);
+        }
+        return response()->json([
+            'status' => 200,
+            'month' => $order_month,
+            'totalprice' => $totalprice,
+        ]);
     }
 }

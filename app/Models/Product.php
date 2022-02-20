@@ -14,6 +14,7 @@ class Product extends Model
         'id',
         'cateID',
         'producerID', 
+        'discountID',
         'name',
         'description',
 
@@ -25,15 +26,16 @@ class Product extends Model
         'selling_price',
         'number',
         'image',
-        'image_detail',
+        'video',
         'featured',
         'popular',
+        'rate',
         'status',
         
     ];
 
 
-    protected $with = ['category', 'producer'];
+    protected $with = ['category', 'producer','discount'];
 
     public function category(){
         return $this->belongsTo(Category::class, 'cateID', 'id');
@@ -41,6 +43,10 @@ class Product extends Model
 
     public function producer(){
         return $this->belongsTo(Producer::class, 'producerID', 'id');
+    }
+
+    public function discount(){
+        return $this->belongsTo(Discount::class, 'discountID', 'id');
     }
     
 }

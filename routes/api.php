@@ -112,7 +112,9 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
     //dashboard
     Route::get('dashboard', [OrderController::class, 'getdashboard']);
-    Route::post('day-order/{day}', [OrderController::class, 'getday']);
+    Route::post('day-order/{from}/{to}', [OrderController::class, 'getday']);
+
+    Route::post('get-year/{year}', [OrderController::class, 'getyear']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

@@ -30,7 +30,7 @@ class FrontEndController extends Controller
             ['status', '1'],
             ['number', '>', '0']
         ])
-           ->get();
+            ->get();
         $product_popular = Product::where([
             ['popular', '1'],
             ['status', '1'],
@@ -131,23 +131,25 @@ class FrontEndController extends Controller
     public function getuser_w()
     {
         $userID = auth('sanctum')->user()->id;
-        $user = Users::where('id', $userID)->first();
-        if ($user) {
-            return response()->json([
-                'status' => 200,
-                'user' => $user,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 401,
-                'message' => "Không tìm thấy mã khách hàng"
-            ]);
+        if ($userID != null) {
+            $user = Users::where('id', $userID)->first();
+            if ($user) {
+                return response()->json([
+                    'status' => 200,
+                    'user' => $user,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 401,
+                    'message' => "Không tìm thấy mã khách hàng"
+                ]);
+            }
         }
     }
     public function search($search_name)
     {
-        $product = Product::where('name', 'LIKE' , "%{$search_name}%")->where('status',1)->get();
-        
+        $product = Product::where('name', 'LIKE', "%{$search_name}%")->where('status', 1)->get();
+
         return response()->json([
             'status' => 200,
             'product' => $product
