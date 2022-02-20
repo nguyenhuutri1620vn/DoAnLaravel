@@ -11,6 +11,7 @@ use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProducerController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserStaffController;
+use App\Http\Controllers\API\DiscountController;
 use App\Http\Controllers\ProductController;
 use App\Models\Cart;
 use App\Models\Order;
@@ -99,9 +100,17 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::put('isUser/{id}', [UserStaffController::class, 'becomeUser']);
     Route::get('edit-staff/{id}', [UserStaffController::class, 'getStaff']);
     Route::post('update-staff/{id}', [UserStaffController::class , 'updateStaff']);
+    //discount
+    Route::post('add-discount', [DiscountController::class, 'store']);
+    Route::get('view-discounts', [DiscountController::class, 'index']);
+    Route::delete('delete-discount/{id}', [DiscountController::class, 'destroy']);
+    Route::get('edit-discount/{id}', [DiscountController::class, 'edit']);
+    Route::post('update-discount/{id}', [DiscountController::class , 'update']);
+
     //config
     Route::get('edit-config/{id}', [ConfigController::class, 'edit']);
     Route::put('update-config/{id}', [ConfigController::class, 'update']);
+
 
     //order
     Route::get('view-order', [OrderController::class, 'view']);
