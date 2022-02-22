@@ -23,18 +23,15 @@ class FrontEndController extends Controller
     {
         $product = Product::where([
             ['status', '1'],
-            ['number', '>', '0']
         ])->get();
         $product_featured = Product::where([
             ['featured', '1'],
             ['status', '1'],
-            ['number', '>', '0']
         ])
             ->get();
         $product_popular = Product::where([
             ['popular', '1'],
             ['status', '1'],
-            ['number', '>', '0']
         ])
             ->get();
         return response()->json([
@@ -52,7 +49,6 @@ class FrontEndController extends Controller
             $product = Product::where([
                 ['cateID', $category->id],
                 ['status', '1'],
-                ['number', '>', '0']
             ])->get();
             if ($product) {
                 return response()->json([
