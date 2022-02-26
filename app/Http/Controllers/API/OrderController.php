@@ -329,4 +329,17 @@ class OrderController extends Controller
             'totalprice' => $totalprice,
         ]);
     }
+    public function getdaystaff($day){
+        $orderday = Order::whereDate('created_at', $day)->where('status', '<', '3')->count();
+        $orderday_money = Order::whereDate('created_at', $day)->where('status', '<', '3')->sum('total_price');
+        $product_sold = OrderDetail::whereDate('created_at', $day)->sum('count');
+        $product_detai_sold = OrderDetail::whereDate('created_at', $day)->get();
+        return response()->json([
+            'status' => 200,
+            'orderday' => $orderday,
+            'money_day' => $orderday_money,
+            'productsold' => $product_sold,
+            'productdetailsold' => $product_detai_sold
+        ]);
+    }
 }
