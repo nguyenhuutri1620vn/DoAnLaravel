@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\ConfigController;
 use App\Http\Controllers\API\ContentController;
 use App\Http\Controllers\API\FrontEndController;
@@ -54,6 +55,10 @@ Route::post('validate-order', [OrderController::class, 'validateorder']);
 //search
 Route::get('search/{search_name}', [FrontEndController::class, 'search']);
 Route::post('cancel-order-cus/{id}', [OrderController::class, 'cancelordercus']);
+
+//comment
+Route::post('add-comment/{id}', [CommentController::class, 'store']);
+Route::get('list-comment/{id}', [CommentController:: class, 'index']);
 
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
