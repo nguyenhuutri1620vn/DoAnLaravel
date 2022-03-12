@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Config;
 use App\Models\Content;
 use App\Models\Product;
@@ -76,6 +77,7 @@ class FrontEndController extends Controller
     {
         $category = Category::where('slug', $category_slug)->where('status', '1')->first();
         $related_product = Product::where('cateID', $category->id)->where('status', '1')->get();
+
         if ($category) {
             $product = Product::where([
                 ['id', $product_id],
@@ -87,7 +89,7 @@ class FrontEndController extends Controller
                     'status' => 200,
                     'product' => $product,
                     'category' => $category,
-                    'related_product' => $related_product
+                    'related_product' => $related_product,
                 ]);
             } else {
                 return response()->json([
@@ -150,5 +152,8 @@ class FrontEndController extends Controller
             'status' => 200,
             'product' => $product
         ]);
+    }
+    public function getRate()
+    {
     }
 }

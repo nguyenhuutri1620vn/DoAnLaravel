@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,14 +16,14 @@ class CommentController extends Controller
     {
         $comment = Comment::where('productID', $id)->get();
         $userid = auth('sanctum')->user()->id;
-        $order = Order::where('userID', $userid)->get('id');
+        $order = Order::where('userID', $userid)->where('status', 2)->get('id');
         $getorder = [];
         foreach ($order as $value) {
             array_push($getorder, $value->id);
         }
 
         $getorderdetail = [];
-        for($i = 0; $i < count($getorder); $i++){
+        for ($i = 0; $i < count($getorder); $i++) {
             $orderdetail = OrderDetail::where('orderID', $getorder[$i])->get('productID');
             foreach ($orderdetail as $value) {
                 array_push($getorderdetail, $value->productID);
@@ -40,7 +41,6 @@ class CommentController extends Controller
     {
 
         $userid = auth('sanctum')->user()->id;
-
         $hadcomment = Comment::where('userID', $userid)->where('productID', $id)->get();
 
         $validator = Validator::make($request->all(), [
@@ -68,6 +68,10 @@ class CommentController extends Controller
             ]);
         } else {
             $comment = new Comment;
+            $product = Product::find($id);
+
+
+
             $comment->content = $request->input('content');
             $comment->detail = $request->input('detail');
             $comment->rate = $request->input('rate');
@@ -75,6 +79,12 @@ class CommentController extends Controller
             $comment->productID = $id;
 
             $comment->save();
+            $total_rate = Comment::where('productID', $id)->sum('rate');
+            $average = Comment::where('productID', $id)->count();
+            $rate =$total_rate/$average;
+            $product->rate = $rate;
+
+            $product->save();
 
             return response()->json([
                 'status' => 200,
