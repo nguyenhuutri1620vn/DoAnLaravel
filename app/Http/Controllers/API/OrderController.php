@@ -269,10 +269,11 @@ class OrderController extends Controller
             'totalproductdashboard' => $totalproductdashboard
         ]);
     }
-    public function getday($from, $to)
+    public function getday($fromto)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-
+        $from = substr($fromto, 0, 10);
+        $to = substr($fromto, 10, 18);
         $orderday = Order::whereBetween('created_at', [$from, "$to 23:59:59"])->where('status', '<', '3')->count();
         $orderday_money = Order::whereBetween('created_at', [$from, "$to 23:59:59"])->where('status', '<', '3')->sum('total_price');
         $product_sold = OrderDetail::whereBetween('created_at', [$from, "$to 23:59:59"])->sum('count');
@@ -282,7 +283,7 @@ class OrderController extends Controller
             'orderday' => $orderday,
             'money_day' => $orderday_money,
             'productsold' => $product_sold,
-            'productdetailsold' => $product_detai_sold
+            'productdetailsold' => $product_detai_sold,
         ]);
     }
     public function cancelordercus($id)
@@ -329,7 +330,8 @@ class OrderController extends Controller
             'totalprice' => $totalprice,
         ]);
     }
-    public function getdaystaff($day){
+    public function getdaystaff($day)
+    {
         $orderday = Order::whereDate('created_at', $day)->where('status', '<', '3')->count();
         $orderday_money = Order::whereDate('created_at', $day)->where('status', '<', '3')->sum('total_price');
         $product_sold = OrderDetail::whereDate('created_at', $day)->sum('count');
